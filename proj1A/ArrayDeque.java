@@ -124,8 +124,9 @@ public class ArrayDeque<T> {
     }
 
     public static void main(String[] args){
-        int[] a = new int[10];
-        System.out.println(a.length);
-
+        ArrayDeque<String> ald = new ArrayDeque();
+        ald.addFirst("hello");
+        ald.addLast("world");
+        ald.printDeque();
     }
 }
