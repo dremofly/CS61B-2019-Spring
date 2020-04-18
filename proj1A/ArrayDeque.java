@@ -128,5 +128,8 @@ public class ArrayDeque<T> {
         ald.addFirst("hello");
         ald.addLast("world");
         ald.printDeque();
+
+        ald.addFirst("Test");
+        ald.printDeque();
     }
 }
