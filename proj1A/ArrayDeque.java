@@ -15,7 +15,10 @@ public class ArrayDeque<T> {
     }
 
     public ArrayDeque(ArrayDeque other){
-
+        items = (T[]) new Object[other.size];
+        first = other.first;
+        last = other.last;
+        size = other.size;
     }
 
     public boolean isFull() {
