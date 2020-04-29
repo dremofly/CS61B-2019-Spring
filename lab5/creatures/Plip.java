@@ -11,6 +11,7 @@ import java.util.Deque;
 import java.util.Map;
 
 import static huglife.HugLifeUtils.randomEntry;
+import static huglife.HugLifeUtils.randomInt;
 
 /**
  * An implementation of a motile pacifist photosynthesizer.
@@ -146,19 +147,23 @@ public class Plip extends Creature {
 
         if (emptyNeighbors.size()==0) { // FIXME
             // TODO
-            stay();
+            //stay();
+            return new Action(Action.ActionType.STAY);
         }
 
         // Rule 2
         // HINT: randomEntry(emptyNeighbors)
         if(emptyNeighbors.size()!=0){
             if(energy >= 1)
-                randomEntry(emptyNeighbors);
+                return new Action(Action.ActionType.MOVE, randomEntry(emptyNeighbors));
         }
 
         // Rule 3
         if(anyClorus){
-
+            double seed = (double)randomInt(3)/3;
+            if(seed > 0.5) {
+                return new Action(Action.ActionType.MOVE, randomEntry(emptyNeighbors));
+            }
         }
 
         // Rule 4
