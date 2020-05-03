@@ -1,9 +1,6 @@
 package creatures;
 
-import huglife.Creature;
-import huglife.Direction;
-import huglife.Action;
-import huglife.Occupant;
+import huglife.*;
 
 import java.awt.Color;
 import java.util.ArrayDeque;
@@ -38,10 +35,14 @@ public class Plip extends Creature {
      */
     public Plip(double e) {
         super("plip");
-        r = 0;
-        g = 0;
-        b = 0;
+        r = 99;
+        g = 76;
+        b = 63 + 96*(int)energy;
         energy = e;
+    }
+
+    public double energy() {
+        return energy;
     }
 
     /**
@@ -67,9 +68,6 @@ public class Plip extends Creature {
      * that you get this exactly correct.
      */
     public Color color() {
-        r = 99;
-        b = 76;
-        g = 63 + (int) (96*energy);
         return color(r, g, b);
     }
 
@@ -153,14 +151,13 @@ public class Plip extends Creature {
 
         // Rule 2
         // HINT: randomEntry(emptyNeighbors)
-        if(emptyNeighbors.size()!=0){
-            if(energy >= 1)
-                return new Action(Action.ActionType.MOVE, randomEntry(emptyNeighbors));
+        if(energy >= 1) {
+            return new Action(Action.ActionType.REPLICATE, randomEntry(emptyNeighbors));
         }
 
         // Rule 3
         if(anyClorus){
-            double seed = (double)randomInt(3)/3;
+            double seed = (double) HugLifeUtils.random();
             if(seed > 0.5) {
                 return new Action(Action.ActionType.MOVE, randomEntry(emptyNeighbors));
             }
