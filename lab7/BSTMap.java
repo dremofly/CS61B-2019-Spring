@@ -159,6 +159,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         for(int i=0; i<size(); i++){
             select(i);
         }
+        return keys;
     }
 
     /* Removes the mapping for the specified key from this map if present.
