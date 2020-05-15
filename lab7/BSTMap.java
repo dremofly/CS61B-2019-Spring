@@ -1,6 +1,8 @@
+import java.util.HashSet;
 import java.util.Iterator;
 
 import java.util.Set;
+import java.util.Stack;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     private Node root;
@@ -74,7 +76,37 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     }
 
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return new BSTIterator(root);
+    }
+
+    private class BSTIterator implements Iterator<K> {
+        private Stack<Node> stack = new Stack<>();
+
+        public BSTIterator(Node root) {
+            while(root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public K next() {
+            Node curr = stack.pop();
+
+            if(curr.right != null) {
+                Node temp = curr.right;
+                while(temp!=null) {
+                    stack.push(temp);
+                    temp = temp.left;
+                }
+            }
+            return curr.key;
+        }
     }
 
     /* Associates the specified value with the specified key in this map. */
@@ -98,10 +130,35 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         return n;
     }
 
+    private Node select(int i){
+        if(i<0 || i>=size()){
+            throw new IllegalArgumentException();
+        }
+        return select(root, i);
+    }
+
+    private Node select(Node n, int i){
+        if(n==null) {
+            return null;
+        }
+        int t = size(n.left);
+        if(t>i){
+            return select(n.left, i);
+        } else if(t<i) {
+            return select(n.right, i-t-1);
+        } else {
+            return n;
+        }
+    }
+
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet(){
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
+        Set<K> keys = new HashSet<>();
+        for(int i=0; i<size(); i++){
+            select(i);
+        }
     }
 
     /* Removes the mapping for the specified key from this map if present.
@@ -118,6 +175,18 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     @Override
     public V remove(K key, V value){
         throw new UnsupportedOperationException();
+    }
+
+    public static void main(String[] args) {
+        BSTMap<String, Integer> bstMap = new BSTMap<>();
+        for (int i = 0; i < 10; i++) {
+            bstMap.put("hi" + i, 1 + i);
+        }
+//        bstMap.printInOrder();
+        Iterator<String> itr = bstMap.iterator();
+        while (itr.hasNext()) {
+            System.out.println(itr.next());
+        }
     }
 
 }
